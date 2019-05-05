@@ -101,16 +101,16 @@
     <Content Include="App_Data\InsuranceDB_log.ldf">
       <DependentUpon>InsuranceDB.mdf</DependentUpon>
     </Content>
-    <Content Include="Data\dbo.Client.sql" />
-    <Content Include="Data\dbo.ClientContract.sql" />
-    <Content Include="Data\dbo.ClientContractCover.sql" />
-    <Content Include="Data\dbo.Client_Insert.sql" />
-    <Content Include="Data\dbo.Cover.sql" />
-    <Content Include="Data\dbo.Cover_Insert.sql" />
-    <Content Include="Data\dbo.Policy.sql" />
-    <Content Include="Data\dbo.PolicyCover.sql" />
-    <Content Include="Data\dbo.RiskType.sql" />
-    <Content Include="Data\dbo.RiskType_Insert.sql" />
+    <Content Include="DataScripts\dbo.Client.sql" />
+    <Content Include="DataScripts\dbo.ClientContract.sql" />
+    <Content Include="DataScripts\dbo.ClientContractCover.sql" />
+    <Content Include="DataScripts\dbo.Client_Insert.sql" />
+    <Content Include="DataScripts\dbo.Cover.sql" />
+    <Content Include="DataScripts\dbo.Cover_Insert.sql" />
+    <Content Include="DataScripts\dbo.Policy.sql" />
+    <Content Include="DataScripts\dbo.PolicyCover.sql" />
+    <Content Include="DataScripts\dbo.RiskType.sql" />
+    <Content Include="DataScripts\dbo.RiskType_Insert.sql" />
     <Content Include="Global.asax" />
     <Content Include="InsuranceModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -157,6 +157,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InsuranceModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\CoverDTO.cs" />
+    <Compile Include="Model\PolicyDTO.cs" />
     <Compile Include="Policy.cs">
       <DependentUpon>InsuranceModel.tt</DependentUpon>
     </Compile>
