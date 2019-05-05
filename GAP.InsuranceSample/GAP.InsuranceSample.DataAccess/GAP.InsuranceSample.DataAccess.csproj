@@ -40,6 +40,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -49,6 +55,8 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -73,6 +81,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="InsuranceModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>InsuranceModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="InsuranceModel.edmx.diagram">
+      <DependentUpon>InsuranceModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -82,6 +97,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\InsuranceDB.mdf" />
+    <Content Include="App_Data\InsuranceDB_log.ldf">
+      <DependentUpon>InsuranceDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Data\dbo.Client.sql" />
     <Content Include="Data\dbo.ClientContract.sql" />
     <Content Include="Data\dbo.ClientContractCover.sql" />
@@ -92,22 +111,66 @@
     <Content Include="Data\dbo.PolicyCover.sql" />
     <Content Include="Data\dbo.RiskType.sql" />
     <Content Include="Data\dbo.RiskType_Insert.sql" />
-    <Content Include="Data\InsuranceDB.ldf">
-      <DependentUpon>InsuranceDB.mdf</DependentUpon>
-    </Content>
-    <Content Include="Data\InsuranceDB.mdf" />
     <Content Include="Global.asax" />
+    <Content Include="InsuranceModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InsuranceModel.Context.cs</LastGenOutput>
+      <DependentUpon>InsuranceModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="InsuranceModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InsuranceModel.edmx</DependentUpon>
+      <LastGenOutput>InsuranceModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContract.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ClientContractCover.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\InsuranceSampleConfig.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
+    <Compile Include="Cover.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InsuranceModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsuranceModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InsuranceModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InsuranceModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InsuranceModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PolicyCover.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RiskType.cs">
+      <DependentUpon>InsuranceModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

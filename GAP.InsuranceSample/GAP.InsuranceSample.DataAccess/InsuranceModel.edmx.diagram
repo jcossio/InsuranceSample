@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="770ba5a7a7824426aec3e040ecea195a" Name="Diagram1" >
+        <EntityTypeShape EntityType="InsuranceDBModel.Client" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.ClientContract" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.ClientContractCover" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.Cover" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.Policy" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.PolicyCover" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="InsuranceDBModel.RiskType" Width="1.5" PointX="6.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
