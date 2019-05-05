@@ -66,6 +66,9 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
             {
                 using (var db = new InsuranceDBEntities())
                 {
+                    if (!db.Policy.Any(p => p.PolicyId == id))
+                        throw new HttpResponseException(HttpStatusCode.NotFound);
+
                     PolicyDTO policy = (from p in db.Policy
                                         join rt in db.RiskType on p.RiskTypeId equals rt.RiskTypeId
                                         where p.Deleted == false && p.PolicyId == id
@@ -87,7 +90,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                                                           Percentage = pc.Percentage
                                                       }).ToList()
                                         }).FirstOrDefault();
-                    return policy ?? throw new HttpResponseException(HttpStatusCode.NotFound);
+                    return policy;
                 }
             }
             catch (HttpResponseException)
