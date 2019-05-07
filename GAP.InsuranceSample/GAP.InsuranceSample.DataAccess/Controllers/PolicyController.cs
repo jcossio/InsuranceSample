@@ -8,6 +8,9 @@ using System.Web.Http;
 
 namespace GAP.InsuranceSample.DataAccess.Controllers
 {
+    /// <summary>
+    /// Controller in charge of actions related to a policy
+    /// </summary>
     public class PolicyController : ApiController
     {
         /// <summary>
@@ -57,21 +60,21 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <summary>
         /// Return single policy
         /// </summary>
-        /// <param name="id">Id of the policy to return</param>
+        /// <param name="PolicyId">Id of the policy to return</param>
         /// <returns>Policy DTO if found else 404</returns>
         [HttpGet]
-        public PolicyDTO Get(int id)
+        public PolicyDTO Get(int PolicyId)
         {
             try
             {
                 using (var db = new InsuranceDBEntities())
                 {
-                    if (!db.Policy.Any(p => p.PolicyId == id && p.Deleted == false))
+                    if (!db.Policy.Any(p => p.PolicyId == PolicyId && p.Deleted == false))
                         throw new HttpResponseException(HttpStatusCode.NotFound);
 
                     PolicyDTO policy = (from p in db.Policy
                                         join rt in db.RiskType on p.RiskTypeId equals rt.RiskTypeId
-                                        where p.Deleted == false && p.PolicyId == id
+                                        where p.Deleted == false && p.PolicyId == PolicyId
                                         select new PolicyDTO()
                                         {
                                             PolicyId = p.PolicyId,
@@ -107,18 +110,18 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <summary>
         /// Delete a policy. This is a soft delete.
         /// </summary>
-        /// <param name="id">Id of the policy to delete</param>
+        /// <param name="PolicyId">Id of the policy to delete</param>
         [HttpDelete]
-        public void Delete(int id)
+        public void Delete(int PolicyId)
         {
             try
             {
                 using (var db = new InsuranceDBEntities())
                 {
-                    if (!db.Policy.Any(p => p.PolicyId == id && p.Deleted == false))
+                    if (!db.Policy.Any(p => p.PolicyId == PolicyId && p.Deleted == false))
                         throw new HttpResponseException(HttpStatusCode.NotFound);
 
-                    var policy = db.Policy.Where(p => p.PolicyId == id)
+                    var policy = db.Policy.Where(p => p.PolicyId == PolicyId)
                         .FirstOrDefault();
                     policy.Deleted = true;
                     db.SaveChanges();
@@ -138,22 +141,22 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <summary>
         /// Add a new policy.
         /// </summary>
-        /// <param name="policy">Policy DTO with covers</param>
+        /// <param name="Policy">Policy DTO with covers</param>
         /// <returns>The created policy DTO</returns>
         [HttpPost]
-        public PolicyDTO Add(PolicyDTO policy)
+        public PolicyDTO Add(PolicyDTO Policy)
         {
             // Check parameters
             // Required Name and at least one cover
-            if (string.IsNullOrEmpty(policy.Name) || policy.Covers == null || policy.Covers.Count == 0)
+            if (string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // [TODO] Move this to a BL layer
             // Check business logic
             // No cover higher than 50% on high risk
-            if (policy.RiskTypeId == 4)
+            if (Policy.RiskTypeId == 4)
             {
-                if (policy.Covers.Any(c => c.Percentage > 50))
+                if (Policy.Covers.Any(c => c.Percentage > 50))
                     throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
@@ -166,17 +169,17 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                     {
                         var newPolicy = new Policy()
                         {
-                            Name = policy.Name,
-                            Description = policy.Description,
-                            MonthlyPremium = policy.MonthlyPremium,
-                            RiskTypeId = policy.RiskTypeId,
+                            Name = Policy.Name,
+                            Description = Policy.Description,
+                            MonthlyPremium = Policy.MonthlyPremium,
+                            RiskTypeId = Policy.RiskTypeId,
                             Deleted = false
                         };
                         db.Policy.Add(newPolicy);
                         db.SaveChanges();
 
                         // Add covers
-                        foreach (var cover in policy.Covers)
+                        foreach (var cover in Policy.Covers)
                         {
                             db.PolicyCover.Add(new PolicyCover()
                             {
@@ -204,22 +207,22 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <summary>
         /// Modify a policy. Deleted status not taken into accont as a modification.
         /// </summary>
-        /// <param name="policy">Policy DTO to modify</param>
+        /// <param name="Policy">Policy DTO to modify</param>
         /// <returns>The modified policy DTO</returns>
         [HttpPut]
-        public PolicyDTO Modify(PolicyDTO policy)
+        public PolicyDTO Modify(PolicyDTO Policy)
         {
             // Check parameters
             // Required Name and at least one cover
-            if (string.IsNullOrEmpty(policy.Name) || policy.Covers == null || policy.Covers.Count == 0)
+            if (string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // [TODO] Move this to a BL layer
             // Check business logic
             // No cover higher than 50% on high risk
-            if (policy.RiskTypeId == 4)
+            if (Policy.RiskTypeId == 4)
             {
-                if (policy.Covers.Any(c => c.Percentage > 50))
+                if (Policy.Covers.Any(c => c.Percentage > 50))
                     throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
@@ -231,28 +234,28 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                     try
                     {
                         // Check if policy exists
-                        if (!db.Policy.Any(p => p.PolicyId == policy.PolicyId && p.Deleted == false))
+                        if (!db.Policy.Any(p => p.PolicyId == Policy.PolicyId && p.Deleted == false))
                             throw new HttpResponseException(HttpStatusCode.NotFound);
 
-                        var dbPolicy = db.Policy.Where(p => p.PolicyId == policy.PolicyId)
+                        var dbPolicy = db.Policy.Where(p => p.PolicyId == Policy.PolicyId)
                             .FirstOrDefault();
-                        dbPolicy.Name = policy.Name;
-                        dbPolicy.Description = policy.Description;
-                        dbPolicy.MonthlyPremium = policy.MonthlyPremium;
-                        dbPolicy.RiskTypeId = policy.RiskTypeId;
+                        dbPolicy.Name = Policy.Name;
+                        dbPolicy.Description = Policy.Description;
+                        dbPolicy.MonthlyPremium = Policy.MonthlyPremium;
+                        dbPolicy.RiskTypeId = Policy.RiskTypeId;
                         db.SaveChanges();
 
                         // Delete and recreate covers
-                        var policyCovers = db.PolicyCover.Where(pc => pc.PolicyId == policy.PolicyId);
+                        var policyCovers = db.PolicyCover.Where(pc => pc.PolicyId == Policy.PolicyId);
                         foreach (var policyCover in policyCovers)
                         {
                             db.PolicyCover.Remove(policyCover);
                         }
-                        foreach (var cover in policy.Covers)
+                        foreach (var cover in Policy.Covers)
                         {
                             db.PolicyCover.Add(new PolicyCover()
                             {
-                                PolicyId = policy.PolicyId,
+                                PolicyId = Policy.PolicyId,
                                 CoverId = cover.CoverId,
                                 Percentage = cover.Percentage
                             });
@@ -261,7 +264,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                         // Return modified policy 
-                        return Get(policy.PolicyId);
+                        return Get(Policy.PolicyId);
                     }
                     catch (Exception)
                     {

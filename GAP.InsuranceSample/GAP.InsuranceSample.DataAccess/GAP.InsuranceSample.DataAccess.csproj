@@ -135,6 +135,7 @@
       <DependentUpon>InsuranceModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Configuration\InsuranceSampleConfig.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Cover.cs">
       <DependentUpon>InsuranceModel.tt</DependentUpon>
