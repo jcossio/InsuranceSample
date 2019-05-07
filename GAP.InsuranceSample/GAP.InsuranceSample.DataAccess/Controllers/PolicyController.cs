@@ -210,10 +210,12 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <summary>
         /// Modify a policy. Deleted status not taken into accont as a modification.
         /// </summary>
+        /// <param name="PolicyId">Id of the policy to delete</param>
         /// <param name="Policy">Policy DTO to modify</param>
         /// <returns>The modified policy DTO</returns>
         [HttpPut]
-        public PolicyDTO Modify([FromBody]PolicyDTO Policy)
+        [Route("api/policy/{PolicyId:int}")]
+        public PolicyDTO Modify(int PolicyId, [FromBody]PolicyDTO Policy)
         {
             // Check parameters
             // Required Name and at least one cover
@@ -237,10 +239,10 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                     try
                     {
                         // Check if policy exists
-                        if (!db.Policy.Any(p => p.PolicyId == Policy.PolicyId && p.Deleted == false))
+                        if (!db.Policy.Any(p => p.PolicyId == PolicyId && p.Deleted == false))
                             throw new HttpResponseException(HttpStatusCode.NotFound);
 
-                        var dbPolicy = db.Policy.Where(p => p.PolicyId == Policy.PolicyId)
+                        var dbPolicy = db.Policy.Where(p => p.PolicyId == PolicyId)
                             .FirstOrDefault();
                         dbPolicy.Name = Policy.Name;
                         dbPolicy.Description = Policy.Description;
@@ -249,7 +251,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         db.SaveChanges();
 
                         // Delete and recreate covers
-                        var policyCovers = db.PolicyCover.Where(pc => pc.PolicyId == Policy.PolicyId);
+                        var policyCovers = db.PolicyCover.Where(pc => pc.PolicyId == PolicyId);
                         foreach (var policyCover in policyCovers)
                         {
                             db.PolicyCover.Remove(policyCover);
@@ -258,7 +260,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         {
                             db.PolicyCover.Add(new PolicyCover()
                             {
-                                PolicyId = Policy.PolicyId,
+                                PolicyId = PolicyId,
                                 CoverId = cover.CoverId,
                                 Percentage = cover.Percentage
                             });
@@ -267,7 +269,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                         // Return modified policy 
-                        return Get(Policy.PolicyId);
+                        return Get(PolicyId);
                     }
                     catch (Exception)
                     {
