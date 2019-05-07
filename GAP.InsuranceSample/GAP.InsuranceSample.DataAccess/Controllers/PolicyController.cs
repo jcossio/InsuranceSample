@@ -104,5 +104,35 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a policy. This is a soft delete.
+        /// </summary>
+        /// <param name="id">Id of the policy to delete</param>
+        [HttpDelete]
+        public void Delete(int id)
+        {
+            try
+            {
+                using (var db = new InsuranceDBEntities())
+                {
+                    if (!db.Policy.Any(p => p.PolicyId == id && p.Deleted == false))
+                        throw new HttpResponseException(HttpStatusCode.NotFound);
+
+                    var policy = db.Policy.Where(p => p.PolicyId == id)
+                        .FirstOrDefault();
+                    policy.Deleted = true;
+                    db.SaveChanges();
+                }
+            }
+            catch (HttpResponseException)
+            {
+                throw;
+            }
+            catch
+            {
+                // [TODO] Log the exception
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }
