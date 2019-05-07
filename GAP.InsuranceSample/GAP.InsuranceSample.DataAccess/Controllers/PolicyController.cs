@@ -18,6 +18,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// </summary>
         /// <returns>List of policy DTOs</returns>
         [HttpGet]
+        [Route("api/policy/")]
         public IEnumerable<PolicyDTO> Get()
         {
             try
@@ -63,6 +64,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <param name="PolicyId">Id of the policy to return</param>
         /// <returns>Policy DTO if found else 404</returns>
         [HttpGet]
+        [Route("api/policy/{PolicyId:int}")]
         public PolicyDTO Get(int PolicyId)
         {
             try
@@ -112,6 +114,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// </summary>
         /// <param name="PolicyId">Id of the policy to delete</param>
         [HttpDelete]
+        [Route("api/policy/{PolicyId:int}")]
         public void Delete(int PolicyId)
         {
             try
@@ -144,11 +147,11 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <param name="Policy">Policy DTO with covers</param>
         /// <returns>The created policy DTO</returns>
         [HttpPost]
-        public PolicyDTO Add(PolicyDTO Policy)
+        public PolicyDTO Add([FromBody]PolicyDTO Policy)
         {
             // Check parameters
             // Required Name and at least one cover
-            if (string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
+            if (Policy == null | string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // [TODO] Move this to a BL layer
@@ -210,11 +213,11 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <param name="Policy">Policy DTO to modify</param>
         /// <returns>The modified policy DTO</returns>
         [HttpPut]
-        public PolicyDTO Modify(PolicyDTO Policy)
+        public PolicyDTO Modify([FromBody]PolicyDTO Policy)
         {
             // Check parameters
             // Required Name and at least one cover
-            if (string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
+            if (Policy == null || string.IsNullOrEmpty(Policy.Name) || Policy.Covers == null || Policy.Covers.Count == 0)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // [TODO] Move this to a BL layer

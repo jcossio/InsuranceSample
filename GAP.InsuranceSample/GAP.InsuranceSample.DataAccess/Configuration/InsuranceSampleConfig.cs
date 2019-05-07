@@ -15,8 +15,8 @@ namespace GAP.InsuranceSample.DataAccess.Configuration
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{id}/{param1}",
+                defaults: new { id = RouteParameter.Optional , param1 = RouteParameter.Optional}
             );
 
             // Interested in json formatters

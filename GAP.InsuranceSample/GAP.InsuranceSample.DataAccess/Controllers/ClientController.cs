@@ -19,6 +19,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         /// <param name="ClientId">Client Id</param>
         /// <param name="ContractId">Contract Id</param>
         [HttpDelete]
+        [Route("api/client/{ClientId:int}/contract/{ContractId:int}")]
         public void CancelContract(int ClientId, int ContractId)
         {
             try
@@ -48,10 +49,11 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage AddContract(ContractDTO Contract)
+        [Route("api/client/{ClientId:int}/contract")]
+        public HttpResponseMessage AddContract(int ClientId, [FromBody]ContractDTO Contract)
         {
             // Check parameters
-            if (Contract.CoverageMonths == 0)
+            if (Contract == null || Contract.CoverageMonths == 0)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // Add Contract
@@ -64,13 +66,13 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         // Check that client and policy exists
                         if (!db.Policy.Any(p => p.PolicyId == Contract.PolicyId && p.Deleted == false))
                             throw new HttpResponseException(HttpStatusCode.BadRequest);
-                        if (!db.Client.Any(c => c.ClientId == Contract.ClientId))
+                        if (!db.Client.Any(c => c.ClientId == ClientId))
                             throw new HttpResponseException(HttpStatusCode.BadRequest);
 
                         var policy = db.Policy.Where(p => p.PolicyId == Contract.PolicyId && p.Deleted == false).FirstOrDefault();
                         var newContract = new ClientContract()
                         {
-                            ClientId = Contract.ClientId,
+                            ClientId = ClientId,
                             PolicyId = Contract.PolicyId,
                             EffectDate = Contract.EffectDate,
                             CoverageMonths = Contract.CoverageMonths,
@@ -87,7 +89,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         {
                             db.ClientContractCover.Add(new ClientContractCover()
                             {
-                                ClientContractCoverId = newContract.ClientContractId,
+                                ClientContractId = newContract.ClientContractId,
                                 CoverId = cover.CoverId,
                                 Percentage = cover.Percentage
                             });
