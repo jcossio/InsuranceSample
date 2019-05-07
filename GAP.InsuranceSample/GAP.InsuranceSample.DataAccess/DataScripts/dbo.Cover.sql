@@ -1,5 +1,14 @@
-﻿CREATE TABLE [dbo].[Cover]
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+DROP TABLE [dbo].[Cover];
+GO
+
+CREATE TABLE [dbo].[Cover]
 (
 	[CoverId] INT NOT NULL PRIMARY KEY, 
     [Name] NVARCHAR(50) NOT NULL
-)
+);

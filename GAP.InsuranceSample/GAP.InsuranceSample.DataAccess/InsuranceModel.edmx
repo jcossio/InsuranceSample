@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="ClientContractId" />
           </Key>
-          <Property Name="ClientContractId" Type="int" Nullable="false" />
+          <Property Name="ClientContractId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="PolicyId" Type="int" Nullable="false" />
           <Property Name="EffectDate" Type="datetime" Nullable="false" />
@@ -30,7 +30,7 @@
           <Key>
             <PropertyRef Name="ClientContractCoverId" />
           </Key>
-          <Property Name="ClientContractCoverId" Type="int" Nullable="false" />
+          <Property Name="ClientContractCoverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientContractId" Type="int" Nullable="false" />
           <Property Name="CoverId" Type="int" Nullable="false" />
           <Property Name="Percentage" Type="float" Nullable="false" />
@@ -40,13 +40,13 @@
             <PropertyRef Name="CoverId" />
           </Key>
           <Property Name="CoverId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Policy">
           <Key>
             <PropertyRef Name="PolicyId" />
           </Key>
-          <Property Name="PolicyId" Type="int" Nullable="false" />
+          <Property Name="PolicyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" />
           <Property Name="MonthlyPremium" Type="money" Nullable="false" />
@@ -57,7 +57,7 @@
           <Key>
             <PropertyRef Name="PolicyCoverId" />
           </Key>
-          <Property Name="PolicyCoverId" Type="int" Nullable="false" />
+          <Property Name="PolicyCoverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PolicyId" Type="int" Nullable="false" />
           <Property Name="CoverId" Type="int" Nullable="false" />
           <Property Name="Percentage" Type="float" Nullable="false" />
@@ -126,7 +126,7 @@
             <PropertyRef Name="CoverId" />
           </Key>
           <Property Name="CoverId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Policy">
           <Key>
