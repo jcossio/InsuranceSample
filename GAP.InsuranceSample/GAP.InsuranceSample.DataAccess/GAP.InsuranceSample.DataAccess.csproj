@@ -158,6 +158,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InsuranceModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\ContractDTO.cs" />
     <Compile Include="Model\CoverDTO.cs" />
     <Compile Include="Model\PolicyDTO.cs" />
     <Compile Include="Policy.cs">
