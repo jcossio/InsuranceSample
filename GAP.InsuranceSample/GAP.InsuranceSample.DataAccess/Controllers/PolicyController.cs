@@ -66,7 +66,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
             {
                 using (var db = new InsuranceDBEntities())
                 {
-                    if (!db.Policy.Any(p => p.PolicyId == id))
+                    if (!db.Policy.Any(p => p.PolicyId == id && p.Deleted == false))
                         throw new HttpResponseException(HttpStatusCode.NotFound);
 
                     PolicyDTO policy = (from p in db.Policy
@@ -190,6 +190,78 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                         dbContextTransaction.Commit();
                         // Return policy with newly generated Id
                         return Get(newPolicy.PolicyId);
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        // [TODO] Log the exception
+                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Modify a policy. Deleted status not taken into accont as a modification.
+        /// </summary>
+        /// <param name="policy">Policy DTO to modify</param>
+        /// <returns>The modified policy DTO</returns>
+        [HttpPut]
+        public PolicyDTO Modify(PolicyDTO policy)
+        {
+            // Check parameters
+            // Required Name and at least one cover
+            if (string.IsNullOrEmpty(policy.Name) || policy.Covers == null || policy.Covers.Count == 0)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+            // [TODO] Move this to a BL layer
+            // Check business logic
+            // No cover higher than 50% on high risk
+            if (policy.RiskTypeId == 4)
+            {
+                if (policy.Covers.Any(c => c.Percentage > 50))
+                    throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
+            // Modify policy
+            using (var db = new InsuranceDBEntities())
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // Check if policy exists
+                        if (!db.Policy.Any(p => p.PolicyId == policy.PolicyId && p.Deleted == false))
+                            throw new HttpResponseException(HttpStatusCode.NotFound);
+
+                        var dbPolicy = db.Policy.Where(p => p.PolicyId == policy.PolicyId)
+                            .FirstOrDefault();
+                        dbPolicy.Name = policy.Name;
+                        dbPolicy.Description = policy.Description;
+                        dbPolicy.MonthlyPremium = policy.MonthlyPremium;
+                        dbPolicy.RiskTypeId = policy.RiskTypeId;
+                        db.SaveChanges();
+
+                        // Delete and recreate covers
+                        var policyCovers = db.PolicyCover.Where(pc => pc.PolicyId == policy.PolicyId);
+                        foreach (var policyCover in policyCovers)
+                        {
+                            db.PolicyCover.Remove(policyCover);
+                        }
+                        foreach (var cover in policy.Covers)
+                        {
+                            db.PolicyCover.Add(new PolicyCover()
+                            {
+                                PolicyId = policy.PolicyId,
+                                CoverId = cover.CoverId,
+                                Percentage = cover.Percentage
+                            });
+                        }
+
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        // Return modified policy 
+                        return Get(policy.PolicyId);
                     }
                     catch (Exception)
                     {
