@@ -1,4 +1,5 @@
-﻿using GAP.InsuranceSample.DataAccess.Model;
+﻿using GAP.InsuranceSample.BusinessLogic.Model;
+using GAP.InsuranceSample.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace GAP.InsuranceSample.DataAccess.Controllers
+namespace GAP.InsuranceSample.BusinessLogic.Controllers
 {
     /// <summary>
     /// Controller in charge of actions related to a Client
@@ -24,7 +25,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         {
             try
             {
-                using (var db = new InsuranceDBEntities())
+                using (var db = new InsuranceEntities())
                 {
                     // Check data 
                     if (!db.Client.Any(c => c.ClientId == ClientId))
@@ -57,7 +58,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             // Add Contract
-            using (var db = new InsuranceDBEntities())
+            using (var db = new InsuranceEntities())
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
                 {

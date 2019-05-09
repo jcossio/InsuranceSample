@@ -1,4 +1,5 @@
-﻿using GAP.InsuranceSample.DataAccess.Model;
+﻿using GAP.InsuranceSample.BusinessLogic.Model;
+using GAP.InsuranceSample.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace GAP.InsuranceSample.DataAccess.Controllers
+namespace GAP.InsuranceSample.BusinessLogic.Controllers
 {
     /// <summary>
     /// Controller in charge of actions related to a policy
@@ -23,7 +24,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         {
             try
             {
-                using (var db = new InsuranceDBEntities())
+                using (var db = new InsuranceEntities())
                 {
                     List<PolicyDTO> policies = (from p in db.Policy
                                                 join rt in db.RiskType on p.RiskTypeId equals rt.RiskTypeId
@@ -69,7 +70,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         {
             try
             {
-                using (var db = new InsuranceDBEntities())
+                using (var db = new InsuranceEntities())
                 {
                     if (!db.Policy.Any(p => p.PolicyId == PolicyId && p.Deleted == false))
                         throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -119,7 +120,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
         {
             try
             {
-                using (var db = new InsuranceDBEntities())
+                using (var db = new InsuranceEntities())
                 {
                     if (!db.Policy.Any(p => p.PolicyId == PolicyId && p.Deleted == false))
                         throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -164,7 +165,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
             }
 
             // Add policy
-            using (var db = new InsuranceDBEntities())
+            using (var db = new InsuranceEntities())
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
@@ -232,7 +233,7 @@ namespace GAP.InsuranceSample.DataAccess.Controllers
             }
 
             // Modify policy
-            using (var db = new InsuranceDBEntities())
+            using (var db = new InsuranceEntities())
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
                 {

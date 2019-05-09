@@ -13,10 +13,10 @@ namespace GAP.InsuranceSample.DataAccess
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class InsuranceDBEntities : DbContext
+    public partial class InsuranceEntities : DbContext
     {
-        public InsuranceDBEntities()
-            : base("name=InsuranceDBEntities")
+        public InsuranceEntities()
+            : base("name=InsuranceEntities")
         {
         }
     

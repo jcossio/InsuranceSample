@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="InsuranceDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="InsuranceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientId" />
           </Key>
-          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SSN" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
@@ -69,7 +69,7 @@
           <Property Name="RiskTypeId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="InsuranceDBModelStoreContainer">
+        <EntityContainer Name="InsuranceModelStoreContainer">
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientContract" EntityType="Self.ClientContract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientContractCover" EntityType="Self.ClientContractCover" Schema="dbo" store:Type="Tables" />
@@ -78,37 +78,29 @@
           <EntitySet Name="PolicyCover" EntityType="Self.PolicyCover" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskType" EntityType="Self.RiskType" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="InsuranceDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="InsuranceDBEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="Client" EntityType="InsuranceDBModel.Client" />
-          <EntitySet Name="ClientContract" EntityType="InsuranceDBModel.ClientContract" />
-          <EntitySet Name="ClientContractCover" EntityType="InsuranceDBModel.ClientContractCover" />
-          <EntitySet Name="Cover" EntityType="InsuranceDBModel.Cover" />
-          <EntitySet Name="Policy" EntityType="InsuranceDBModel.Policy" />
-          <EntitySet Name="PolicyCover" EntityType="InsuranceDBModel.PolicyCover" />
-          <EntitySet Name="RiskType" EntityType="InsuranceDBModel.RiskType" />
-        </EntityContainer>
+      <Schema Namespace="InsuranceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientId" />
           </Key>
-          <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <Property Name="SSN" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SSN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="ClientContract">
           <Key>
             <PropertyRef Name="ClientContractId" />
           </Key>
-          <Property Name="ClientContractId" Type="Int32" Nullable="false" />
+          <Property Name="ClientContractId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="PolicyId" Type="Int32" Nullable="false" />
           <Property Name="EffectDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CoverageMonths" Type="Int16" Nullable="false" />
-          <Property Name="MonthlyPremium" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="MonthlyPremium" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="RiskTypeId" Type="Int32" Nullable="false" />
           <Property Name="Cancelled" Type="Boolean" Nullable="false" />
         </EntityType>
@@ -116,7 +108,7 @@
           <Key>
             <PropertyRef Name="ClientContractCoverId" />
           </Key>
-          <Property Name="ClientContractCoverId" Type="Int32" Nullable="false" />
+          <Property Name="ClientContractCoverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientContractId" Type="Int32" Nullable="false" />
           <Property Name="CoverId" Type="Int32" Nullable="false" />
           <Property Name="Percentage" Type="Double" Nullable="false" />
@@ -126,16 +118,16 @@
             <PropertyRef Name="CoverId" />
           </Key>
           <Property Name="CoverId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Policy">
           <Key>
             <PropertyRef Name="PolicyId" />
           </Key>
-          <Property Name="PolicyId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PolicyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="MonthlyPremium" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="MonthlyPremium" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="RiskTypeId" Type="Int32" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
@@ -143,7 +135,7 @@
           <Key>
             <PropertyRef Name="PolicyCoverId" />
           </Key>
-          <Property Name="PolicyCoverId" Type="Int32" Nullable="false" />
+          <Property Name="PolicyCoverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PolicyId" Type="Int32" Nullable="false" />
           <Property Name="CoverId" Type="Int32" Nullable="false" />
           <Property Name="Percentage" Type="Double" Nullable="false" />
@@ -153,82 +145,91 @@
             <PropertyRef Name="RiskTypeId" />
           </Key>
           <Property Name="RiskTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityContainer Name="InsuranceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="ClientContract" EntityType="Self.ClientContract" />
+          <EntitySet Name="ClientContractCover" EntityType="Self.ClientContractCover" />
+          <EntitySet Name="Cover" EntityType="Self.Cover" />
+          <EntitySet Name="Policy" EntityType="Self.Policy" />
+          <EntitySet Name="PolicyCover" EntityType="Self.PolicyCover" />
+          <EntitySet Name="RiskType" EntityType="Self.RiskType" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="InsuranceDBModelStoreContainer" CdmEntityContainer="InsuranceDBEntities" >
+        <EntityContainerMapping StorageEntityContainer="InsuranceModelStoreContainer" CdmEntityContainer="InsuranceEntities">
           <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="InsuranceDBModel.Client">
+            <EntityTypeMapping TypeName="InsuranceModel.Client">
               <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="SSN" ColumnName="SSN" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientContract">
-            <EntityTypeMapping TypeName="InsuranceDBModel.ClientContract">
+            <EntityTypeMapping TypeName="InsuranceModel.ClientContract">
               <MappingFragment StoreEntitySet="ClientContract">
-                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
-                <ScalarProperty Name="RiskTypeId" ColumnName="RiskTypeId" />
-                <ScalarProperty Name="MonthlyPremium" ColumnName="MonthlyPremium" />
-                <ScalarProperty Name="CoverageMonths" ColumnName="CoverageMonths" />
-                <ScalarProperty Name="EffectDate" ColumnName="EffectDate" />
-                <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="ClientContractId" ColumnName="ClientContractId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
+                <ScalarProperty Name="EffectDate" ColumnName="EffectDate" />
+                <ScalarProperty Name="CoverageMonths" ColumnName="CoverageMonths" />
+                <ScalarProperty Name="MonthlyPremium" ColumnName="MonthlyPremium" />
+                <ScalarProperty Name="RiskTypeId" ColumnName="RiskTypeId" />
+                <ScalarProperty Name="Cancelled" ColumnName="Cancelled" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientContractCover">
-            <EntityTypeMapping TypeName="InsuranceDBModel.ClientContractCover">
+            <EntityTypeMapping TypeName="InsuranceModel.ClientContractCover">
               <MappingFragment StoreEntitySet="ClientContractCover">
-                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="CoverId" ColumnName="CoverId" />
-                <ScalarProperty Name="ClientContractId" ColumnName="ClientContractId" />
                 <ScalarProperty Name="ClientContractCoverId" ColumnName="ClientContractCoverId" />
+                <ScalarProperty Name="ClientContractId" ColumnName="ClientContractId" />
+                <ScalarProperty Name="CoverId" ColumnName="CoverId" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cover">
-            <EntityTypeMapping TypeName="InsuranceDBModel.Cover">
+            <EntityTypeMapping TypeName="InsuranceModel.Cover">
               <MappingFragment StoreEntitySet="Cover">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CoverId" ColumnName="CoverId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Policy">
-            <EntityTypeMapping TypeName="InsuranceDBModel.Policy">
+            <EntityTypeMapping TypeName="InsuranceModel.Policy">
               <MappingFragment StoreEntitySet="Policy">
-                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="RiskTypeId" ColumnName="RiskTypeId" />
-                <ScalarProperty Name="MonthlyPremium" ColumnName="MonthlyPremium" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MonthlyPremium" ColumnName="MonthlyPremium" />
+                <ScalarProperty Name="RiskTypeId" ColumnName="RiskTypeId" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PolicyCover">
-            <EntityTypeMapping TypeName="InsuranceDBModel.PolicyCover">
+            <EntityTypeMapping TypeName="InsuranceModel.PolicyCover">
               <MappingFragment StoreEntitySet="PolicyCover">
-                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="CoverId" ColumnName="CoverId" />
-                <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
                 <ScalarProperty Name="PolicyCoverId" ColumnName="PolicyCoverId" />
+                <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
+                <ScalarProperty Name="CoverId" ColumnName="CoverId" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RiskType">
-            <EntityTypeMapping TypeName="InsuranceDBModel.RiskType">
+            <EntityTypeMapping TypeName="InsuranceModel.RiskType">
               <MappingFragment StoreEntitySet="RiskType">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RiskTypeId" ColumnName="RiskTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
