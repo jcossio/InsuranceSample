@@ -1,0 +1,25 @@
+﻿@page
+@model IEnumerable<InsuranceSample.Domain.Models.Policy>
+
+@{
+    ViewData["Title"] = "All Policies";
+}
+
+<h1>Policies</h1>
+
+@foreach (var policy in Model)
+{
+    <div class="row mb-lg-5">
+        <div class="col-lg-8">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Customer </span>
+                <span class="badge badge-secondary badge-pill">@policy.Name</span>
+            </h4>
+            <div>
+                <p>@policy.Description</p>
+                <p>@policy.MonthlyPremium</p>
+            </div>
+            <a href="/Policy/Index/@policy.PolicyId">More details</a>
+        </div>
+    </div>
+}
