@@ -1,0 +1,10 @@
+﻿@page
+@model InsuranceSample.Web.Pages.Client.CreateModel
+@{
+}
+<h1>Add Client</h1>
+<form method="post">
+    <input type="text" asp-for="Client.SSN" placeholder="Client SSN" />
+    <input type="text" asp-for="Client.Name" placeholder="Client Name" />
+    <button type="submit">Submit</button>
+</form>

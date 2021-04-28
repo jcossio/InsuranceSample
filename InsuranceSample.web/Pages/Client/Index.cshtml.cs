@@ -6,22 +6,22 @@ using InsuranceSample.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace InsuranceSample.Web.Pages.Policy
+namespace InsuranceSample.Web.Pages.Client
 {
     public class IndexModel : PageModel
     {
-        private readonly IRepository<Domain.Models.Policy> policyRepository;
+        private readonly IRepository<Domain.Models.Client> clientRepository;
         [BindProperty]
-        public IEnumerable<Domain.Models.Policy> Policies { get; set; }
+        public IEnumerable<Domain.Models.Client> Clients { get; set; }
 
-        public IndexModel(IRepository<Domain.Models.Policy> policyRepository)
+        public IndexModel(IRepository<Domain.Models.Client> clientRepository)
         {
-            this.policyRepository = policyRepository;
+            this.clientRepository = clientRepository;
         }
 
         public void OnGet()
         {
-            Policies = policyRepository.All();
+            Clients = clientRepository.All();
         }
     }
 }

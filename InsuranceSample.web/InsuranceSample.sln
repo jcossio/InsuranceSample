@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceSample.Web", "InsuranceSample.Web.csproj", "{1B9E4FD5-49F2-4DAE-A77D-AD367F35835D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InsuranceSample.Web", "InsuranceSample.Web.csproj", "{1B9E4FD5-49F2-4DAE-A77D-AD367F35835D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceSample.Domain", "..\InsuranceSample.domain\InsuranceSample.Domain.csproj", "{4E68FE6C-EC93-478A-89A3-13AC09C99C81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InsuranceSample.Domain", "..\InsuranceSample.domain\InsuranceSample.Domain.csproj", "{4E68FE6C-EC93-478A-89A3-13AC09C99C81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceSample.Infrastructure", "..\InsuranceSample.Infrastructure\InsuranceSample.Infrastructure.csproj", "{F28D1C34-DF29-471F-A8C7-1196A5571299}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InsuranceSample.Infrastructure", "..\InsuranceSample.Infrastructure\InsuranceSample.Infrastructure.csproj", "{F28D1C34-DF29-471F-A8C7-1196A5571299}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
