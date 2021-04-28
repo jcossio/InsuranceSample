@@ -29,7 +29,7 @@ namespace InsuranceSample.Infrastructure.Repositories
                 .Where(predicate).ToList();
         }
 
-        public virtual T Get(int? id)
+        public virtual T Get(Guid id)
         {
             return context.Find<T>(id);
         }

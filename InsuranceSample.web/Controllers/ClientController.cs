@@ -18,7 +18,7 @@ namespace InsuranceSample.Web.Controllers
             this.clientRepository = clientRepository;
         }
 
-        public IActionResult Index(int? id)
+        public IActionResult Index(Guid id)
         {
             if (id == null)
             {
@@ -28,7 +28,7 @@ namespace InsuranceSample.Web.Controllers
             }
             else
             {
-                var customer = clientRepository.Get(id.Value);
+                var customer = clientRepository.Get(id);
 
                 return View(new[] { customer });
             }
@@ -36,7 +36,7 @@ namespace InsuranceSample.Web.Controllers
 
 
         // GET: ClientController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             var client = clientRepository.Get(id);
             return View(new[] { client });

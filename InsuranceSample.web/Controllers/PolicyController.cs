@@ -27,7 +27,7 @@ namespace InsuranceSample.Web.Controllers
         }
 
         // GET: PolicyController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             var contract = policyRepository.Get(id);
             return View(new[] { contract });
@@ -70,7 +70,7 @@ namespace InsuranceSample.Web.Controllers
         }
 
         // GET: PolicyController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
             return View();
         }
@@ -78,7 +78,7 @@ namespace InsuranceSample.Web.Controllers
         // POST: PolicyController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, PolicyModel model)
+        public ActionResult Edit(Guid id, PolicyModel model)
         {
             var policy = policyRepository.Get(id);
             policy.Description = model.Description;
@@ -99,7 +99,7 @@ namespace InsuranceSample.Web.Controllers
         // POST: PolicyController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, PolicyModel model)
+        public ActionResult Delete(Guid id, PolicyModel model)
         {
             var policy = policyRepository.Get(id);
             policy.Deleted = true;

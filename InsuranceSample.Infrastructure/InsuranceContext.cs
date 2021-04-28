@@ -8,10 +8,14 @@ namespace InsuranceSample.Infrastructure
     {
         public DbSet<Policy> Policies { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\.;Database=Insurance;user=ityp;password=ityp;");
+            if (!optionsBuilder.IsConfigured)
+                //optionsBuilder.UseSqlServer("Server=(localdb)\\.;Database=Insurance;Trusted_Connection=True;");
+                optionsBuilder.UseSqlite("Data Source=Insurance.db");
         }
     }
 }
+

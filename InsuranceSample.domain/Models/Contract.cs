@@ -4,7 +4,7 @@ namespace InsuranceSample.Domain.Models
 {
     public class Contract
     {
-        public int ContractId { get; private set; }
+        public Guid ContractId { get; private set; }
         public int ClientId { get; set; }
         public int PolicyId { get; set; }
         public DateTime EffectiveDate { get; set; }
@@ -14,6 +14,7 @@ namespace InsuranceSample.Domain.Models
 
         public Contract()
         {
+            ContractId = Guid.NewGuid();
             ContractDate = DateTime.UtcNow;
         }
     }

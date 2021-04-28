@@ -29,7 +29,7 @@ namespace InsuranceSample.Web.Controllers
         }
 
         // GET: ContractController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             var contract = contractRepository.Get(id);
             return View(new[] { contract });
@@ -62,7 +62,7 @@ namespace InsuranceSample.Web.Controllers
         }
 
         // GET: ContractController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
             return View();
         }
@@ -70,7 +70,7 @@ namespace InsuranceSample.Web.Controllers
         // POST: ContractController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Guid id, IFormCollection collection)
         {
             try
             {

@@ -27,25 +27,27 @@ namespace InsuranceSample.web
         {
             services.AddRazorPages();
 
-            CreateInitialDatabase();
-
             services.AddTransient<InsuranceContext>();
             services.AddTransient<IRepository<Policy>, PolicyRepository>();
             services.AddTransient<IRepository<Client>, ClientRepository>();
+            services.AddTransient<IRepository<Contract>, ContractRepository>();
+
+            CreateInitialDatabase();
+           
         }
 
         public void CreateInitialDatabase()
         {
             using (var context = new InsuranceContext())
             {
-                //context.Database.EnsureDeleted();
-                //context.Database.EnsureCreated();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
 
-                var client1 = new Client { ClientId = 123456789, Name = "John Doe" };
-                var client2 = new Client { ClientId = 987654321, Name = "Rowan Atkinson" };
-                var client3 = new Client { ClientId = 112233445, Name = "Robert Wagner" };
-                var client4 = new Client { ClientId = 556677889, Name = "Erik Estrada" };
-                var client5 = new Client { ClientId = 222222222, Name = "Templeton Peck" };
+                var client1 = new Client { SSN = "123456789", Name = "John Doe" };
+                var client2 = new Client { SSN = "987654321", Name = "Rowan Atkinson" };
+                var client3 = new Client { SSN = "112233445", Name = "Robert Wagner" };
+                var client4 = new Client { SSN = "556677889", Name = "Erik Estrada" };
+                var client5 = new Client { SSN = "222222222", Name = "Templeton Peck" };
 
                 var clientRepository = new ClientRepository(context);
 
